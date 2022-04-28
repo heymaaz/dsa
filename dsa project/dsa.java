@@ -436,8 +436,8 @@ class Tree
         
         while(sc.hasNext())
         {
-            String line = sc.nextLine().trim();
-            int i2 = line.lastIndexOf(',');
+            String line = sc.nextLine();
+            line = line.toLowerCase().replaceAll(" ","");
             String r = line.substring(0,i2);
             String t = line.substring(i2+1);
             if(Search(Root,t)==null)
