@@ -1,0 +1,100 @@
+class Tree
+    INITIALISE CHILD ARRAY TO STORE 100 CHILDREN PER INSTANCE
+    child[]<-new Tree[100]
+    
+    INITIALISING INSTANCE VARIABLES
+    x <- -1
+    declare s
+    declare p
+    
+    DECLARING CONSTRUCTOR
+    Tree(str)
+        s<-str
+
+    CREATING A METHOD SEARCH TO CHECK IF THE ROLE/POSITION ALREADY EXISTS AND RETURNING NULL IF IT DOESN'T EXIST
+    Search(t,str)
+        if(str=t.s)
+            return t
+        c <- 0
+        while(t.child[c]!=null)
+            x <- Search(t.child[c],str)
+            if(x=null IS NOT TRUE)
+                return x
+            c<-c+1
+        return null
+
+    CREATING A METHOD TO TRAVERSE THROUGH THE TREE/SUBTREE AND CHECK IF THE NODE
+    IS THE ONLY NODE OR NOT AND ADDING LINES AS PER THE REQUIREMENTS TO SHOW THE TREE/SUBTREE GRAPHICALLY
+    traverse(t, str, root, out)
+        if(t=root IS NOT TRUE)
+            if(t.p=10)	HERE 10 REPRESENTS THAT IT IS NOT THE ONLY DAUGHTER
+                out<-out+"\n"+ str+"├──"+t.s
+            else
+                out<-out+"\n"+ str+"└──"+t.s
+            if(t.p=10)
+                str<-str+("│  ")
+            else 
+                str<- str+("   ")
+        else
+            out<-t.s
+        c <- 0
+        while(t.child[c]=null IS NOT TRUE)
+            out<- traverse(t.child[c],str,root,out)	USING RECURSION TO REACH ALL THE LEAF NODES
+            c<-c+1
+        return out
+    
+    CREATING A METHOD TO ADD A DAUGHTER NODE AND MAKING THE PREVIOS NODES x VALUE TO 10. THE RIGHT M0ST NODE HAS x VALUE 1
+    join(m, t)
+        if(m.x>-1)
+            m.child[m.x].p<-10
+        m.x<-m.x+1
+        m.child[m.x]<-new Tree(t);
+        if(m.x=0)
+            m.child[m.x].p<-0
+        else
+            m.child[m.x].p<-1
+
+    CREATING A MAIN METHOD TO READ THE FILE data.csv AND MAKING THE TREE USING THE ABOVE FUNCTIONS 
+    AND THEN DISPLAYING THE TREE AND REQUIRED SUBTREE
+    main()
+        in <- "data.csv"
+        sc = new Scanner(new File(in))
+        Root <- new Tree("Football") INITIALISING THE ROOT NODE
+        
+        while(sc.hasNext()) TO REACH THE END OF THE FILE
+            line <- sc.nextLine()	EXTRACTING ONE LINE AT A TIME
+            line <- line.toLowerCase().replaceAll(" ","") REMOVING ALL WHITESPACES AND CONVERTING TO LOWER-CASE
+            i2 <- line.lastIndexOf(',')	TO EXTRACT THE PROFESSION
+            r <- line.substring(0,i2)
+            t <- line.substring(i2+1)
+            if(Search(Root,t)=null)
+                join(Root,t)
+
+            m <- Search(Root,t)
+            i1 <- r.lastIndexOf(',')	TO EXTRACT THE POSITION
+            u <- r.substring(0,i1)
+            v <- r.substring(i1+1)
+            if(Search(Root,v)=null)
+                join(m,v)
+
+            i <- u.indexOf(',')		TO EXTRACT THE NAME
+            u<-u.substring(0,i)
+            z <- m.child[m.x]
+            join(z,u)
+        
+        output <- traverse(Root,"",Root,"")	USING THE TRAVERSE FUNCTION TO GENERATE THE TREE GRAPHICALLY
+        Display output
+
+        Display ("Enter Role/Position to be searched")
+        ACCEPT r				ASKING THE USER TO SEARCH FOR A ROLE/POSITION AND DISPLAYING THE SUBTREE
+	if(Search(Root,r)=null)
+            Display("Not Found!")
+        else 
+            tr <- Search(Root,r)
+            if(tr.child[0]=null)
+                Display(r+" is a name!")
+            else if(tr=Root)
+                Display (r+" is the root!")
+            else
+                output <- traverse(tr,"",tr,"")
+                Display (output)
