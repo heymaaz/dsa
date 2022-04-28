@@ -148,7 +148,8 @@ class Queue {
         void push(Record a) {
 
             if (isFull())
-                System.out.println("stack full");
+                JOptionPane.showMessageDialog(null,"stack full", "Error",3);
+                //System.out.println("stack full");
             else {
 
                 t = t + 1;
@@ -457,8 +458,28 @@ class Tree
             join(z,u);
         }
         String output = traverse(Root,"",Root,"");
-        
         System.out.println(output);
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        
+        String r = JOptionPane.showInputDialog(null,"Enter Role/Position to be searched", "Binary Tree Search", 3).trim();
+        if(Search(Root,r)==null)
+            JOptionPane.showMessageDialog(null,"Not Found!", "Error",3);
+        else 
+        {
+            Tree tr = Search(Root,r);
+            if(tr.child[0]==null)
+                System.out.println(r+" is a name!");
+            else if(tr==Root)
+                System.out.println(r+" is the root!");
+            else
+            {
+                output = traverse(tr,"",tr,"");
+                System.out.println(output);
+            }
+        }
+        
     }
 }
 
@@ -534,9 +555,9 @@ public class dsa extends Frame implements ActionListener, WindowListener {
             
             
         } catch (Exception e) {
-			//e.printStackTrace();
-		}
-	}
+            //e.printStackTrace();
+        }
+    }
 
 
     /* ActionEvent handler */
